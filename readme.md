@@ -1,7 +1,7 @@
 ## Install:
 
 ```shell
-wget -O- https://raw.githubusercontent.com/mercurykd/vpnbot/master/scripts/init.sh | sh -s YOUR_TELEGRAM_BOT_KEY master
+wget -O- https://raw.githubusercontent.com/umnya-is-a-god/vpnbot/master/scripts/init.sh | sh -s YOUR_TELEGRAM_BOT_KEY master
 ```
 #### Restart:
 ```shell
