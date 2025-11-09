@@ -1,4 +1,16 @@
-16.07.2025 v2.23
+08.11.2025 v2.26
+- обновлено ядро xray
+- обновлен adguardHome
+- добавлен iodine(dnstt)
+- добавлены кнопки скачивания vless-конфига
+- hwid для подписки orion от legiz
+19.07.2025 v2.25
+- перед запуском обязательно запустить:
+<pre>touch ./override.env ./docker-compose.override.yml ./config/location.conf ./config/override.conf</pre>
+- для nginx вместо include.conf теперь override.conf, не затирается
+- location.conf (by legiz), не затирается
+- app/i18n.override.php для собственных названий кнопок, не затирается
+16.07.2025 v2.24
 - фикс зависания бота из-за пустого статуса warp
 - скрипт socat.sh для мостов /mirror
 04.07.2025 v2.23

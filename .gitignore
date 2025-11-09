@@ -10,6 +10,7 @@
 /sftp-config.json
 /tg.pyr
 /config/wg0.conf
+/config/hwid.json
 /todo.todo
 /app/zapretlists/*
 !/app/zapretlists/.gitkeep
@@ -28,3 +29,6 @@ app/webapp/override/
 .rest
 
 subscription.php
+location.conf
+override.conf
+i18n.override.php

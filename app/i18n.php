@@ -193,6 +193,30 @@ $i = [
         'en' => 'delete internal dns',
         'ru' => 'удалить внутренний dns',
     ],
+    'hwid limit' => [
+        'en' => 'HWID limit',
+        'ru' => 'HWID лимит',
+    ],
+    'hwid devices' => [
+        'en' => 'HWID devices',
+        'ru' => 'Устройства HWID',
+    ],
+    'set hwid devices count' => [
+        'en' => 'set HWID devices count',
+        'ru' => 'установить количество HWID устройств',
+    ],
+    'use default hwid limit' => [
+        'en' => 'use default limit',
+        'ru' => 'использовать лимит по умолчанию',
+    ],
+    'no devices' => [
+        'en' => 'no devices',
+        'ru' => 'нет устройств',
+    ],
+    'hwid notice' => [
+        'en' => 'HWID limit works only when subscription is refreshed or added',
+        'ru' => 'HWID лимит срабатывает только в момент обновления и добавления подписки',
+    ],
     'on'  => [
         'en' => '🟢',
         'ru' => '🟢',
@@ -378,3 +402,7 @@ $i = [
         'ru' => 'перезагрузка',
     ],
 ];
+
+if (file_exists(__DIR__ . '/i18n.override.php')) {
+    include __DIR__ . '/i18n.override.php';
+}
