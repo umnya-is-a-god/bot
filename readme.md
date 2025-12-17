@@ -5,6 +5,7 @@ wget -O- https://raw.githubusercontent.com/umnya-is-a-god/vpnbot/master/scripts/
 ```
 #### Restart:
 ```shell
+cd /vpnbot
 make r
 ```
 #### autoload:
