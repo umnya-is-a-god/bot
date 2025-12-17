@@ -8,7 +8,7 @@
     "mode": "rule",
     "log-level": "info",
     "ipv6": false,
-    "keep-alive-interval": 30,
+    "keep-alive-interval": 60,
     "unified-delay": false,
     "profile": {
         "store-selected": true,
@@ -98,15 +98,15 @@
             "type": "RULE-SET",
             "list": "~block~",
             "action": "REJECT",
-            "interval": 30,
-            "behavior": "domain",
+            "interval": 60,
+            "behavior": "classical",
             "name": "block"
         },
         {
             "type": "RULE-SET",
             "list": "~process~",
             "action": "PROXY",
-            "interval": 30,
+            "interval": 60,
             "behavior": "classical",
             "name": "process"
         },
@@ -114,7 +114,7 @@
             "type": "RULE-SET",
             "list": "~package~",
             "action": "PROXY",
-            "interval": 30,
+            "interval": 60,
             "behavior": "classical",
             "name": "package"
         },
@@ -122,24 +122,24 @@
             "type": "RULE-SET",
             "list": "~warp~",
             "action": "PROXY",
-            "interval": 30,
-            "behavior": "domain",
+            "interval": 60,
+            "behavior": "classical",
             "name": "warp"
         },
         {
             "type": "RULE-SET",
             "list": "~pac~",
             "action": "PROXY",
-            "interval": 30,
-            "behavior": "domain",
+            "interval": 60,
+            "behavior": "classical",
             "name": "pac"
         },
         {
             "type": "RULE-SET",
             "list": "~subnet~",
             "action": "PROXY",
-            "interval": 30,
-            "behavior": "ipcidr",
+            "interval": 60,
+            "behavior": "classical",
             "name": "subnet"
         },
         {

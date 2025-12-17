@@ -37,23 +37,21 @@ proxy: # консоль сервиса
 	docker compose exec proxy /bin/sh
 tg: # консоль сервиса
 	docker compose exec tg /bin/sh
-io: # консоль сервиса
-	docker compose exec io /bin/sh
+dnstt: # консоль сервиса
+	docker compose exec dnstt /bin/sh
+hy: # консоль сервиса
+	docker compose exec hy /bin/sh
 xr: # консоль сервиса
 	docker compose exec xr /bin/sh
 oc: # консоль сервиса
 	docker compose exec oc /bin/sh
 service: # консоль сервиса
 	docker compose exec service /bin/sh
-clean:
-	docker image prune
-	docker builder prune
-cleanf:
-	docker image prune -f > /dev/null
-	docker builder prune -f > /dev/null
-cleanall:
-	docker image prune -a -f
-	docker builder prune -a -f
+delete:
+	make d
+	docker system prune -f -a
+	docker volume prune -f -a
+	rm -rf /root/vpnbot
 push:
 	docker compose push
 s:
@@ -72,3 +70,7 @@ reset:
 	make u
 backup:
 	docker compose exec php php backup.php > backup.json
+cron: # установка задачи в cron для автозапуска при перезагрузке
+	@(crontab -l 2>/dev/null | grep -v "cd /root/vpnbot && make r"; echo "@reboot cd /root/vpnbot && make r") | crontab -
+uncron: # удаление задачи из cron
+	@crontab -l 2>/dev/null | grep -v "cd /root/vpnbot && make r" | crontab -

@@ -40,14 +40,8 @@ services:
         hostname: upstream
         container_name: upstream-${VER}
         depends_on:
-            php:
-                condition: service_healthy
             ng:
-                condition: service_started
-            ad:
-                condition: service_started
-            ss:
-                condition: service_started
+                condition: service_healthy
             xr:
                 condition: service_started
             oc:
@@ -104,6 +98,17 @@ services:
         depends_on:
             php:
                 condition: service_healthy
+            ad:
+                condition: service_started
+            ss:
+                condition: service_started
+            xr:
+                condition: service_started
+        healthcheck:
+            test: ["CMD", "nginx", "-t"]
+            interval: 10s
+            timeout: 5s
+            retries: 3
     php:
         image: mercurykd/vpnbot-php:1.7
         build:
@@ -206,6 +211,8 @@ services:
             - np
             - proxy
             - ss
+            - dnstt
+            - hy
     wg:
         image: mercurykd/vpnbot-wg:1.1
         build:
@@ -318,15 +325,16 @@ services:
         entrypoint: ["/bin/sh", "/start_ad.sh"]
         logging: *default-logging
     tg:
-        image: mercurykd/vpnbot-tg:1.1
+        image: mercurykd/vpnbot-tg:1.3
         build:
             dockerfile: dockerfile/telegram.dockerfile
         volumes:
-            - ./config/.profile:/root/.ashrc:ro
+            - ./config/.profile:/root/.bashrc:ro
             - ./ssh:/ssh
             - ./config/sshd_config:/etc/ssh/sshd_config
             - ./scripts/start_tg.sh:/start_tg.sh
             - ./config/mtprotosecret:/mtprotosecret
+            - ./logs/:/logs/
         hostname: telegram
         container_name: mtproto-${VER}
         depends_on:
@@ -410,7 +418,7 @@ services:
                 ipv4_address: 10.10.0.11
         logging: *default-logging
     np:
-        image: mercurykd/vpnbot-np:1.1
+        image: mercurykd/vpnbot-np:1.2
         build:
             dockerfile: dockerfile/naive.dockerfile
             args:
@@ -441,7 +449,7 @@ services:
                 ipv4_address: 10.10.0.12
         logging: *default-logging
     wp:
-        image: mercurykd/vpnbot-wp:1.3
+        image: mercurykd/vpnbot-wp:1.5
         build:
             dockerfile: dockerfile/warp.dockerfile
             args:
@@ -532,21 +540,21 @@ services:
             default:
                 ipv4_address: 10.10.0.6
         logging: *default-logging
-    io:
-        image: mercurykd/vpnbot-io:1.0
+    dnstt:
+        image: mercurykd/vpnbot-dnstt:1.0
         build:
-            dockerfile: dockerfile/iodine.dockerfile
+            dockerfile: dockerfile/dnstt.dockerfile
+            args:
+                image: ${IMAGE}
         volumes:
             - ./config/.profile:/root/.ashrc:ro
             - ./ssh:/ssh
+            - ./logs:/logs
             - ./config/sshd_config:/etc/ssh/sshd_config
-            - ./scripts/start_io.sh:/start_io.sh
-        hostname: iodine
-        cap_add:
-            - NET_ADMIN
-        devices:
-            - /dev/net/tun:/dev/net/tun
-        container_name: iodine-${VER}
+            - ./config/dnstt:/dnstt
+            - ./scripts/start_dnstt.sh:/start_dnstt.sh
+        hostname: dnstt
+        container_name: dnstt-${VER}
         depends_on:
             php:
                 condition: service_healthy
@@ -556,8 +564,38 @@ services:
             - path: ./override.env
               required: false
         stop_grace_period: 1s
-        command: ["/bin/sh", "/start_io.sh"]
+        command: ["/bin/sh", "/start_dnstt.sh"]
         networks:
             default:
                 ipv4_address: 10.10.0.16
+        logging: *default-logging
+    hy:
+        image: mercurykd/vpnbot-hysteria:1.0
+        build:
+            dockerfile: dockerfile/hysteria.dockerfile
+            args:
+                image: ${IMAGE}
+        volumes:
+            - ./config/.profile:/root/.ashrc:ro
+            - ./ssh:/ssh
+            - ./config/sshd_config:/etc/ssh/sshd_config
+            - ./certs:/certs
+            - ./logs:/logs
+            - ./config:/config
+            - ./scripts/start_hysteria.sh:/start_hysteria.sh
+        hostname: hysteria
+        container_name: hysteria-${VER}
+        depends_on:
+            php:
+                condition: service_healthy
+        env_file:
+            - path: ./.env
+              required: true # default
+            - path: ./override.env
+              required: false
+        stop_grace_period: 1s
+        command: ["/bin/sh", "/start_hysteria.sh"]
+        networks:
+            default:
+                ipv4_address: 10.10.0.17
         logging: *default-logging
