@@ -11,5 +11,5 @@ make r
 #### autoload:
 ```shell
 crontab -e
-```
 add `@reboot cd /root/vpnbot && make r` and save
+```
